@@ -5,7 +5,7 @@ function Contacts()
     return (
         <div className="middle">
             <form className="topSearch">
-                <input type="text" id="search" className="search white" placeholder="Zoek" required/>
+                <input type="text" id="search" name="search" className="search white" placeholder="Zoek" required/>
             </form>
 
             <div className="me">

@@ -6,6 +6,7 @@ import LeftSide from './components/LeftSide';
 import Contacts from './components/Contacts';
 import RightSide from './components/RightSide';
 import PersonForm from './components/PersonForm';
+import Login from './components/Login';
 import './styles/app.css';
 import './bootstrap';
 
@@ -36,4 +37,10 @@ if (document.getElementById('right'))
 {
     ReactDOM.render(<RightSide/>, document.getElementById('right'));
 }
+
+if (document.getElementById('Login')) 
+{
+    ReactDOM.render(<Login/>, document.getElementById('Login'));
+}
+
 ReactDOM.render(<App/>, document.getElementById('root'));

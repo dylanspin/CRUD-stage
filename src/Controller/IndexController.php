@@ -17,4 +17,14 @@ class IndexController extends AbstractController
             'controller_name' => 'IndexController',
         ]);
     }
+
+    /**
+     * @Route("/login", name="login")
+     */
+    public function loginForm(): Response
+    {
+        return $this->render('index/login.html.twig', [
+            'controller_name' => 'IndexController',
+        ]);
+    }
 }

@@ -12,14 +12,17 @@ class Message extends React.Component
             image: "",
 		}
 	}
-    
+
     render()
     {
         return (
             <div>
                 <div className="message white heebo">
                     <img className="messageImage" src="/Images/Profile/pf1.png" alt="Logo Main"/>
-                    <div className="messageIfo"><h5 className="d-inline">{this.state.name}</h5><p className="smallT d-inline ml-3 gray">{this.state.date}</p></div>
+                    <div className="messageIfo">
+                        <h5 className="d-inline">{this.state.name}</h5>
+                        <p className="smallT d-inline ml-3 gray">{this.state.date}</p>
+                    </div>
                     <div className=" messageText dWhite">
                         {this.state.message}
                     </div>
