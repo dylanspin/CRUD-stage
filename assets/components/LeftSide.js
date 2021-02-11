@@ -15,6 +15,7 @@ function LeftSide()
             </div>
             <div className="group m-3">
                 <div className="circle"></div>
+                <img className="groupImage" src="/Images/Profile/pf1.png" alt="Logo Main"/>
             </div>
 
             <div className="group m-3 add">

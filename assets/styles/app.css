@@ -26,6 +26,9 @@ body {
     height: 30px;
     top: 15px;
 }
+.group:hover .groupImage{
+    border-radius: 20%;
+}
 .group:hover{
     border-radius: 20%;
 }
@@ -70,6 +73,12 @@ body {
     top:10px;
     font-size: 40px;
     color: #43B581;
+}
+.groupImage{
+    position: relative;
+    width: 100%;
+    transition: 0.3s;
+    border-radius: 50%;
 }
 
 /* middleside Contacts */
@@ -130,6 +139,14 @@ body {
     position: relative;
     border-radius: 50%;
     width: 30px;
+    background-color: red;
+}
+.status{
+    position:absolute;
+    top: 20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
     background-color: red;
 }
 

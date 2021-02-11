@@ -36,9 +36,10 @@ function Contacts()
                 <div className="row pt-1">
                     <div className="col col-1 ml-3 mr-1">
                         <img className="profileImage" src="/Images/Profile/pf1.png" alt="Logo Main"/>
+                        <div className="status"></div>
                     </div>
                     <div className="col">
-                        <p className="name">Agenda</p>
+                        <p className="name">Dylan Spin</p>
                     </div>
                 </div>
             </div>
