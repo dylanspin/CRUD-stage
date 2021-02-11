@@ -1,6 +1,33 @@
 body {
-    background-color: #777;
     overflow:hidden;
+    background-color: #363636;
+}
+.pt-03{
+    margin-top: 3px;
+}
+.pt-25{
+    margin-top: 12px;
+}
+.smallT{
+    font-size: 13px;
+}
+.gray{
+    color: #919191;
+}
+.white{
+    color: white;
+}
+.dWhite{
+    color: #C2C2C2;
+}
+.blue{
+    background-color: #7289DA;
+}
+.test{
+    background-color: red;
+}
+.heebo{
+    font-family: 'Heebo', sans-serif;
 }
 
 /* leftside groups */
@@ -15,7 +42,6 @@ body {
 .group{
     position: relative;
     left: 7px;
-    background-color: #7289DA;
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -104,10 +130,56 @@ body {
     border: none;
     border-radius: 5px;
     background-color: #141414;
+}
+.search:focus, .barInput:focus{
+    outline:none;
+}
+.me{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #171717;
     color: white;
 }
-.search:focus{
-    outline:none;
+.MeName{
+    font-size: 15px;
+    width: 250%;
+    margin: 0px
+}
+.MeIcon{
+    position: relative;
+    top: 8px;
+    font-size: 25px;
+    display: inline-block;
+    margin-left: 15px;
+    transition: 0.3s;
+}
+
+.MeIcon:hover .info{
+    transform: scale(1,1);
+    opacity: 1;
+}
+.info{
+    position: absolute;
+    left:-300%;
+    display: inline-flex;
+    font-size: 20px;
+    background-color: #141414;
+    padding: 5px;
+    border-radius: 5px;
+    opacity: 0;
+    min-width: 100px;
+    transition: 0.3s;
+    pointer-events:none;
+    z-index: 100;
+}
+.topInfo{
+    top: -200%;
+}
+.bottomInfo{
+    bottom: -200%;
 }
 .BerichText{
     color: #8a8a8a;
@@ -132,8 +204,8 @@ body {
 .contactLine{
     position: relative;
     background-color:#141414;
-    height: 1.5px;
-    margin: 2px;
+    height: 1px;
+    margin: 5px 0px 10px 00px;
 }
 .profileImage{
     position: relative;
@@ -156,9 +228,106 @@ body {
     left: 350px;
     top: 0px;
     min-width: 100vw;
+    z-index: -1;
     height: 100vh;
     background-color: #363636
 }
-.registerForm{
-    width: 400px;
+.topHeader{
+    position: absolute;
+    width: 105%;
+    left: -2%;
+    padding-left: 2%;
+    height: 55px;
+    background-color: #363636;
+    box-shadow: 0 4px 1px -2px #141414;
+}
+.leftHeader{
+    position: relative;
+    left: 0;
+    width: 65%;
+    display: inline-block;
+}
+.RightHeader{
+    position: relative;
+    right: 0%;
+    width: 25%;
+    display: inline-block;
+}
+.messages{
+    position: relative;
+    top:56px;
+    width: 100%;
+    height: 88%;
+    overflow-y: scroll;
+    padding-bottom: 40px;
+}
+.writeBar{
+    position: fixed;
+    bottom: -5px;
+    width: 100%;
+    height: 75px;
+    background-color: #363636;
+    padding-bottom: 100px;
+}
+.bar{
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    width: 80%;
+    height: 45px;
+    border-radius: 5px;
+    background-color: #4d4d4d;
+}
+.barInput{
+    border: none;
+    height: 30px;
+    width: 90%;
+    font-size: 18px;
+    padding: 5px;
+    background-color: #4d4d4d;
+    resize: none;
+    display: inline-block;
+    overflow: hidden;
+}
+.barIcon{
+    position: relative;
+    display: inline-block;
+    font-size: 30px;
+    transition: 0.3s;
+}
+.barIcon:hover{
+    color:white;
+}
+
+/*Message*/
+.message{
+    position: relative;
+    width: 100%;
+    /* padding-top: 30px; */
+    padding: 32px 0px 20px 0px;
+    margin-top: 15px;
+    transition: 0.1s;
+}
+.message:hover{
+    background-color: #303030;
+}
+.messageImage{
+    position: absolute;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    top: 10px;
+    left: 10px;
+    display: inline-block;
+}
+.messageText{
+    position: relative;
+    left: 70px;
+    width: 60%;
+    display: inline-block;
+}
+.messageIfo{
+    position: absolute;
+    top: 3px;
+    left: 70px;
 }

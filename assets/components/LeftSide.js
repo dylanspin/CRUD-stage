@@ -10,7 +10,7 @@ function LeftSide()
             </div>
             <hr className="leftLine"/>
             
-            <div className="group m-3">
+            <div className="group m-3 blue">
                 <div className="circle"></div>
             </div>
             <div className="group m-3">
