@@ -343,7 +343,11 @@ body {
     background-color: #363636;
     border-radius: 10px;
 }
-
+.vak2{
+    top: 80px;
+    width: 400px;
+    height: 550px;
+}
 .loginInput{
     position: relative;
     top: -10px;
@@ -371,10 +375,6 @@ body {
     border-radius: 5px;
 }
 
-
-
-
-/*Wave effect mischien van internet..*/
 .ocean { 
   height: 5%;
   width:100%;

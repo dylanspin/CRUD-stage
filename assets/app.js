@@ -7,6 +7,7 @@ import Contacts from './components/Contacts';
 import RightSide from './components/RightSide';
 import PersonForm from './components/PersonForm';
 import Login from './components/Login';
+import Register from './components/Register';
 import './styles/app.css';
 import './bootstrap';
 
@@ -42,5 +43,11 @@ if (document.getElementById('Login'))
 {
     ReactDOM.render(<Login/>, document.getElementById('Login'));
 }
+
+if (document.getElementById('Register')) 
+{
+    ReactDOM.render(<Register/>, document.getElementById('Register'));
+}
+
 
 ReactDOM.render(<App/>, document.getElementById('root'));

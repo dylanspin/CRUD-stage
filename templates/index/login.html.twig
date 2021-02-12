@@ -3,5 +3,10 @@
 {% block title %}Crud!{% endblock %}
 
 {% block body %}
-    <div id="Login"></div>
+
+    {% if login %}
+        <div id="Login"></div>
+    {% else %}
+        <div id="Register"></div>
+    {% endif %}
 {% endblock %}
