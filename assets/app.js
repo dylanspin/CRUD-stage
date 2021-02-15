@@ -1,11 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import NewContentProvider from './context/NewContentProvider';
-import ContentTable from './components/ContentTable';
 import LeftSide from './components/LeftSide';
 import Contacts from './components/Contacts';
 import RightSide from './components/RightSide';
-import PersonForm from './components/PersonForm';
 import Login from './components/Login';
 import Register from './components/Register';
 import './styles/app.css';

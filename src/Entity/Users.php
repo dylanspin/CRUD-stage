@@ -157,4 +157,9 @@ class Users
 
         return $this;
     }
+
+    public function getHighest(): ?int
+    {
+        return $this->groups;
+    }
 }

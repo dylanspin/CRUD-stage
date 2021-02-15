@@ -29,6 +29,7 @@ class UserController extends AbstractController
         if($account)
         {
             $this->userInfo = $account;
+           
             $timeDiff = date_diff($account->getLastAuth(),$setDate);
             if($auth)
             {
@@ -69,8 +70,14 @@ class UserController extends AbstractController
     */
     public function settings()
     {   
-        return $this->render('index/settings.html.twig', [
-            'controller_name' => 'IndexController',
-        ]);
+        $check = $this->authCheck();
+        if($check)
+        {
+            return $this->render('index/settings.html.twig', [
+                'controller_name' => 'IndexController',
+            ]);
+        }else{
+            return $this->redirect("/login", 301);
+        }
     }
 }

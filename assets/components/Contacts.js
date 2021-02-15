@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Person from './Person';
 
 class Contacts extends React.Component 
 {
@@ -65,18 +66,28 @@ class Contacts extends React.Component
                     </div>
                 </div>
     
-                <h6 className="BerichText mt-4 mb-2 ml-4">Berichten :</h6>
-    
-                <div className="contactRow">
-                    <div className="row pt-1">
-                        <div className="col col-1 ml-3 mr-1">
-                            <img className="profileImage" src="/Images/Profile/pf1.png" alt="Logo Main"/>
-                            <div className="status"></div>
-                        </div>
-                        <div className="col">
-                            <p className="name pt-03">Dylan Spin</p>
-                        </div>
-                    </div>
+                <h6 className="BerichText mt-4 mb-3 ml-4">Berichten :</h6>
+                <div className="scroller cScroll">
+                    <Person name="Dylan"></Person>
+                    <Person name="Levi"></Person>
+                    <Person name="JJ"></Person>
+                    <Person name="Kevin"></Person>
+                    <Person name="Luna"></Person>
+                    <Person name="Dylan"></Person>
+                    <Person name="Levi"></Person>
+                    <Person name="JJ"></Person>
+                    <Person name="Kevin"></Person>
+                    <Person name="Luna"></Person>
+                    <Person name="Dylan"></Person>
+                    <Person name="Levi"></Person>
+                    <Person name="JJ"></Person>
+                    <Person name="Kevin"></Person>
+                    <Person name="Luna"></Person>
+                    <Person name="Dylan"></Person>
+                    <Person name="Levi"></Person>
+                    <Person name="JJ"></Person>
+                    <Person name="Kevin"></Person>
+                    <Person name="Luna"></Person>
                 </div>
             </div>
         );
