@@ -42,6 +42,21 @@ class Users
      */
     private $Joined;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $LastAuth;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $Hcode;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $groups;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +118,42 @@ class Users
     public function setJoined(?\DateTimeInterface $Joined): self
     {
         $this->Joined = $Joined;
+
+        return $this;
+    }
+
+    public function getLastAuth(): ?\DateTimeInterface
+    {
+        return $this->LastAuth;
+    }
+
+    public function setLastAuth(?\DateTimeInterface $LastAuth): self
+    {
+        $this->LastAuth = $LastAuth;
+
+        return $this;
+    }
+
+    public function getHcode(): ?string
+    {
+        return $this->Hcode;
+    }
+
+    public function setHcode(string $Hcode): self
+    {
+        $this->Hcode = $Hcode;
+
+        return $this;
+    }
+
+    public function getGroups(): ?string
+    {
+        return $this->groups;
+    }
+
+    public function setGroups(?string $groups): self
+    {
+        $this->groups = $groups;
 
         return $this;
     }

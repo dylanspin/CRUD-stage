@@ -2,6 +2,19 @@
 
 {% block title %}Crud!{% endblock %}
 
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    <script>
+        window.REP_LOG_APP_PROPS = {
+            contact: [
+                {
+                    id: '474637',
+                    username: "{{name}}",
+                }
+            ]
+        }
+    </script>
+{% endblock %}
 {% block body %}
     <div id="left"></div>
     <div id="contacts"></div>

@@ -30,6 +30,11 @@ body {
     font-family: 'Heebo', sans-serif;
 }
 
+.none:hover{
+    transition: 0s;
+    text-decoration: none;
+    color: inherit;
+}
 /* leftside groups */
 .left{
     position: fixed;

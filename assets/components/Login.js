@@ -22,7 +22,7 @@ function Login()
                                 <input type="submit" id="Login" name="Login" className=" mt-4 loginInput blue white p-1" value="Login" required/>
                             </form>
                             <div className="smallT pb-3 gray">Nog geen account ? <a className="forgot" href="/registeren">Registreren</a> </div>
-                        </div>
+                        </div> 
                     </div>
                     <div className="col col-6">
                     {/* qrCode */}

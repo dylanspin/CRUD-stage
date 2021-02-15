@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use PhpParser\Node\Expr\Ternary;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class IndexController extends AbstractController
 {
+    ///controller voor de non auth pages dus de login/register/index
     /**
      * @Route("/", name="index")
      */
@@ -39,4 +41,5 @@ class IndexController extends AbstractController
             'login' => false,
         ]);
     }
+
 }

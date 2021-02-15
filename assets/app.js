@@ -32,7 +32,8 @@ if (document.getElementById('left'))
 }
 if (document.getElementById('contacts')) 
 {
-    ReactDOM.render(<Contacts/>, document.getElementById('contacts'));
+    // {...window.REP_LOG_APP_PROPS.contact}
+    ReactDOM.render(<Contacts {...window.REP_LOG_APP_PROPS.contact}/>, document.getElementById('contacts'));
 }
 if (document.getElementById('right')) 
 {
@@ -45,7 +46,7 @@ if (document.getElementById('Login'))
 }
 
 if (document.getElementById('Register')) 
-{
+{ 
     ReactDOM.render(<Register/>, document.getElementById('Register'));
 }
 
