@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import NewContentProvider from './context/NewContentProvider';
 import LeftSide from './components/LeftSide';
 import Contacts from './components/Contacts';
-import RightSide from './components/RightSide';
+import LeftSettings from './components/LeftSettings';
 import Login from './components/Login';
 import Register from './components/Register';
 import './styles/app.css';
@@ -24,28 +24,29 @@ class App extends React.Component
 }
 
 
+//main
 if (document.getElementById('left')) 
 {
     ReactDOM.render(<LeftSide/>, document.getElementById('left'));
 }
 if (document.getElementById('contacts')) 
 {
-    // {...window.REP_LOG_APP_PROPS.contact}
     ReactDOM.render(<Contacts {...window.REP_LOG_APP_PROPS.contact}/>, document.getElementById('contacts'));
 }
-if (document.getElementById('right')) 
-{
-    ReactDOM.render(<RightSide/>, document.getElementById('right'));
-}
 
+//auth
 if (document.getElementById('Login')) 
 {
     ReactDOM.render(<Login/>, document.getElementById('Login'));
 }
-
 if (document.getElementById('Register')) 
 { 
     ReactDOM.render(<Register/>, document.getElementById('Register'));
+}
+
+if (document.getElementById('leftSetting')) 
+{ 
+    ReactDOM.render(<LeftSettings/>, document.getElementById('leftSetting'));
 }
 
 

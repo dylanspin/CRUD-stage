@@ -13,6 +13,7 @@ class FormController extends AbstractController
 {
 
     private $session;
+    private  $user;
 
     public function __construct(SessionInterface $session)
     {
@@ -24,12 +25,21 @@ class FormController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $auth = $this->session->get('uyshsidybcksu1893');
         $setDate = new \DateTime(date('H:i:s'));
-        $account = $entityManager->getRepository(Users::class)->findOneBy(['User_Id' => $auth]);
-        dump(date_diff($account->getLastAuth(),$setDate));
-        // dump($account->getLastAuth());
-        if($auth)
-        {
-            return true;
+        $this->user = $entityManager->getRepository(Users::class)->findOneBy(['User_Id' => $auth]);
+        if($this->user)
+        {  
+            $timeDiff = date_diff($this->user->getLastAuth(),$setDate);
+            if($auth)
+            {
+                if($timeDiff->days > 1)
+                {
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                return false;
+            }
         }else{
             return false;
         }
@@ -61,6 +71,66 @@ class FormController extends AbstractController
         }else{
             return $this->redirect("/login", 301);
         }
+    }
+
+    /**
+     * @Route("/main/add", name="addFriend")
+    */
+    public function addFriend(Request $req)
+    {
+        $completed = $this->authCheck($req);
+        if($completed)
+        {
+            $added = $this->addFriendDB($req);
+            if($added)
+            {
+                return $this->redirect("/main", 301);
+            }else{
+                return $this->redirect("/main/friends", 301);
+            }
+        }else{
+            return $this->redirect("/login", 301);
+        }
+    }
+
+    private function addFriendDB(Request $req)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $account = $entityManager->getRepository(Users::class)->findOneBy(['Hcode' => $req->get('search')]);
+        if($account)
+        {
+            $completed1 = $this->setFriendArray($account, $this->user);
+            $completed2  = $this->setFriendArray($this->user, $account);
+            return ($completed1 && $completed2);
+        }else{
+            return false;
+        }
+    }
+
+    private function setFriendArray($person1, $person2)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $Hcode = $person1->getHcode();
+        $Hcode2 = $person2->getHcode();
+        $friendArray = unserialize($person2->getFriends());
+        if(empty($friendArray)){
+            if($Hcode2 != $Hcode)//so you cant add your self
+            {
+                $friendArray = [$Hcode];
+            }else{
+                return false;  
+            }
+        }else{
+            if(!in_array($Hcode,$friendArray) && $Hcode2 != $Hcode){//so you cant add people twice and add your self 
+                array_push($friendArray,$Hcode);
+            }else{
+                return false;
+            }
+        }
+        $serializedArray = serialize($friendArray);
+        $person2->setFriends($serializedArray);
+        $entityManager->flush();
+        return true;
     }
 
     private function CheckLoginDB(Request $req)
@@ -111,6 +181,7 @@ class FormController extends AbstractController
 
     private function Logout()
     {
-
+        $this->session->clear();  
+        return $this->redirect("/login", 301);
     }
 }

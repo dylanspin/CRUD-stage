@@ -30,9 +30,9 @@ function Login()
                     </div>
                 </div>
             </div>
-            <div class="ocean">
-                <div class="wave"></div>
-                <div class="wave"></div>
+            <div className="ocean">
+                <div className="wave"></div>
+                <div className="wave"></div>
             </div>
         </div>
     );

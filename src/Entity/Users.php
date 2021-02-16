@@ -57,6 +57,11 @@ class Users
      */
     private $groups;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $Friends;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -161,5 +166,17 @@ class Users
     public function getHighest(): ?int
     {
         return $this->groups;
+    }
+
+    public function getFriends(): ?string
+    {
+        return $this->Friends;
+    }
+
+    public function setFriends(?string $Friends): self
+    {
+        $this->Friends = $Friends;
+
+        return $this;
     }
 }

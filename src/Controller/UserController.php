@@ -33,7 +33,6 @@ class UserController extends AbstractController
             $timeDiff = date_diff($account->getLastAuth(),$setDate);
             if($auth)
             {
-                dump($timeDiff->i);
                 if($timeDiff->days > 1)
                 {
                     return false;
@@ -59,11 +58,31 @@ class UserController extends AbstractController
             return $this->render('index/main.html.twig', [
                 'controller_name' => 'IndexController',
                 'name' => $this->userInfo->getUsername(),
+                'contactPage' => '0',
             ]);
         }else{
             return $this->redirect("/login", 301);
         }
     }
+
+    /**
+     * @Route("/main/friends", name="mainFriendsList")
+    */
+    public function mainFriendsList()
+    {   
+        $check = $this->authCheck();
+        if($check)
+        {
+            return $this->render('index/main.html.twig', [
+                'controller_name' => 'IndexController',
+                'name' => $this->userInfo->getUsername(),
+                'contactPage' => '1',
+            ]);
+        }else{
+            return $this->redirect("/login", 301);
+        }
+    }
+
 
     /**
      * @Route("/settings", name="settings")
