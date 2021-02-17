@@ -170,18 +170,41 @@ class FormController extends AbstractController
             $newUser->setEmail($req->get('Email'));
             $newUser->setUserId(uniqid('CRUD'));
             $newUser->setJoined(new \DateTime(date('H:i:s')));
-        
+            
             $em->persist($newUser);
             $em->flush();
+            $this->setHrCode($newUser);
             return true;
         }else{
             return false;
         }
     }
 
-    private function Logout()
+    private function setHrCode($newUser)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $userId = $newUser->getId();
+        $newUser->setHcode(sprintf('%06d',$userId));
+        $entityManager->flush();
+    }
+
+    /**
+     * @Route("/settings/logout", name="Logout")
+    */
+    public function Logout()
     {
         $this->session->clear();  
         return $this->redirect("/login", 301);
+    }
+
+     /**
+     * @Route("/settings/delete", name="deleteAccount")
+    */
+    public function deleteAccount()
+    {
+        $this->session->clear(); 
+        //delete user row and remove from the current users friends
+        
+        return $this->redirect("/registeren", 301);
     }
 }

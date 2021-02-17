@@ -1,6 +1,6 @@
 body {
     overflow:hidden;
-    background-color: #212121;
+    background-color: #2F3136;
 }
 .pt-03{
     margin-top: 3px;
@@ -10,6 +10,9 @@ body {
 }
 .smallT{
     font-size: 13px;
+}
+.lGray{
+    color: #bababa;
 }
 .gray{
     color: #919191;
@@ -26,6 +29,14 @@ body {
 .heebo{
     font-family: 'Heebo', sans-serif;
 }
+.scaleHover{
+    transition: 0.3s;
+    cursor: pointer;
+}
+.scaleHover:hover{
+    transform:scale(1.05,1.05);
+
+}
 
 .none:hover{
     transition: 0s;
@@ -39,7 +50,7 @@ body {
     top: 0px;
     width: 100px;
     height: 100vh;
-    background-color: #141414;
+    background-color: #202225;
 }
 ::-webkit-scrollbar {
     display: none;
@@ -89,13 +100,13 @@ body {
     border-radius: 50%;
 }
 .first{
-    background-color: #212121;
+    background-color: #2F3136;
 }
 .first:hover{
     background-color: #7289DA;
 }
 .add{
-    background-color: #212121;
+    background-color: #2F3136;
 }
 .add:hover{
     color: white;
@@ -115,7 +126,7 @@ body {
     transition: 0.3s;
 }
 .leftLine{
-    background-color: #212121;
+    background-color: #2F3136;
     height: 3px;
     width: 50%;
 }
@@ -132,7 +143,7 @@ body {
     top: 0px;
     width: 250px;
     height: 100vh;
-    background-color: #212121;
+    background-color: #2F3136;
 }
 .topSearch{
     height: 50px;
@@ -147,7 +158,7 @@ body {
     padding: 5px;
     border: none;
     border-radius: 5px;
-    background-color: #141414;
+    background-color: #202225;
 }
 .search:focus, .barInput:focus{
     outline:none;
@@ -159,7 +170,7 @@ body {
     width: 100%;
     height: 60px;
     z-index: 12;
-    background-color: #171717;
+    background-color: #202225;
     color: white;
 }
 .MeName{
@@ -185,14 +196,14 @@ body {
     left:-300%;
     display: inline-flex;
     font-size: 20px;
-    background-color: #141414;
+    background-color: #202225;
     padding: 5px;
     border-radius: 5px;
     opacity: 0;
     min-width: 100px;
     transition: 0.3s;
     pointer-events:none;
-    z-index: 100;
+    z-index: 50;
 }
 .topInfo{
     top: -200%;
@@ -212,7 +223,7 @@ body {
     color: #8a8a8a;
 }
 .contactRow:hover{
-    background-color: #363636;
+    background-color: #36393F;
 }
 .icon{
     font-size: 25px;
@@ -222,7 +233,7 @@ body {
 }
 .contactLine{
     position: relative;
-    background-color:#141414;
+    background-color:#202225;
     height: 1px;
     margin: 5px 0px 10px 00px;
 }
@@ -248,7 +259,7 @@ body {
     min-width: 100vw;
     z-index: -1;
     height: 100vh;
-    background-color: #363636
+    background-color: #36393F
 }
 .topHeader{
     position: absolute;
@@ -256,8 +267,8 @@ body {
     left: -2%;
     padding-left: 2%;
     height: 55px;
-    background-color: #363636;
-    box-shadow: 0 4px 1px -2px #141414;
+    background-color: #36393F;
+    box-shadow: 0 4px 1px -2px #202225;
 }
 .leftHeader{
     position: relative;
@@ -266,8 +277,9 @@ body {
     display: inline-block;
 }
 .RightHeader{
-    position: relative;
-    right: 0%;
+    position: fixed;
+    right: -4%;
+    top: 10px;
     width: 25%;
     display: inline-block;
 }
@@ -284,7 +296,7 @@ body {
     bottom: -5px;
     width: 100%;
     height: 75px;
-    background-color: #363636;
+    background-color: #36393F;
     padding-bottom: 100px;
 }
 .bar{
@@ -294,7 +306,7 @@ body {
     width: 80%;
     height: 45px;
     border-radius: 5px;
-    background-color: #4d4d4d;
+    background-color: #40444B;
 }
 .barInput{
     border: none;
@@ -302,13 +314,13 @@ body {
     width: 90%;
     font-size: 18px;
     padding: 5px;
-    background-color: #4d4d4d;
+    background-color: #40444B;
     resize: none;
     display: inline-block;
     overflow: hidden;
 }
 .darkInput{
-    background-color:#212121;
+    background-color:#2F3136;
 }
 .barIcon{
     position: relative;
@@ -361,7 +373,7 @@ body {
     left: 320px;
     width: 800px;
     height: 400px;
-    background-color: #363636;
+    background-color: #36393F;
     border-radius: 10px;
 }
 .vak2{
@@ -448,11 +460,11 @@ body {
     padding: 32px 0px 20px 0px;
     margin-top: 15px;
     transition: 0.1s;
-    border-bottom: 1px solid #4d4d4d;
+    border-bottom: 1px solid #40444B;
 }
 .friend:hover{
     border-radius: 5px;
-    background-color: #4d4d4d;
+    background-color: #40444B;
 }
 .rightFriend{
     position: absolute;
@@ -472,10 +484,10 @@ body {
     transition: 0.3s;
     text-align: center;
     font-size: 30px;
-    color: #4d4d4d;
+    color: #777;
 }
 .friendCircle:hover{
-    background-color: #212121;
+    background-color: #2F3136;
     color: white;
 }
 .FriendBar{
@@ -485,7 +497,7 @@ body {
     width: 60%;
     height: 45px;
     border-radius: 5px;
-    background-color: #212121;
+    background-color: #2F3136;
 }
 
 /* settings */
@@ -495,7 +507,7 @@ body {
     top: 0px;
     width: 600px;
     height: 100vh;
-    background-color: #363636;
+    background-color: #2F3136;
 }
 .rightSettings{
     position: fixed;
@@ -504,7 +516,7 @@ body {
     min-width: 100vw;
     z-index: -1;
     height: 100vh;
-    background-color: #404040;
+    background-color: #36393F;
 }
 .stickRight{
     position: absolute;
@@ -523,6 +535,7 @@ body {
     font-size: 18px;
     border-radius: 5px;
     color: #EFEFEF;
+    border: none;
     transition: 0.3s;
 }
 .optionLogout{
@@ -542,4 +555,79 @@ body {
     width: 100%;
     height: 1px;
     background-color: white;
+}
+.back{
+    position: fixed;
+    top: 1%;
+    right: 3%;
+    color: #777;
+    font-size: 300%;
+    transition: 0.3s;
+}
+.back:hover{
+    color: white;
+}
+.optionImage{
+    position: relative;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.profileVak{
+    position: relative;
+    left: 30px;
+    width: 600px;
+    /* width: 500px; */
+    height: 280px;
+    border-radius: 5px;
+    background-color: #2F3136;
+}
+.InnerImage{
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+}
+.innerOptions{
+    position: relative;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 45%;
+    background-color: #36393F;
+    border-radius: inherit;
+}
+.bewerken{
+    position: relative;
+    left: 20px;
+    width: 100px;
+    height: 35px;
+    border: 10px;
+    border-radius: 5px;
+    padding-top: 5px;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    background-color: #40444B;
+}
+
+.verwijder{
+    width: 150px;
+    border: 2px solid #DD2222;
+    color: #DD2222;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.inputOverlay{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vw;
+    z-index: 100;
+    background-color: rgba(10, 10, 10, 0.8);
 }

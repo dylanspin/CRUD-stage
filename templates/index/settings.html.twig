@@ -1,7 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Crud!{% endblock %}
-
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    <script>
+        window.REP_LOG_APP_PROPS = {
+            settings: [
+                {
+                    name: "{{name}}",
+                    hCode: "{{hCode}}",
+                    mail: "{{mail}}",
+                    page:'0',
+                }
+            ]
+        }
+    </script>
+{% endblock %}
 {% block body %}
     <div id="leftSetting"></div>
 {% endblock %}

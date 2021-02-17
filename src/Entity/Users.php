@@ -62,6 +62,11 @@ class Users
      */
     private $Friends;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $pfImage;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -176,6 +181,18 @@ class Users
     public function setFriends(?string $Friends): self
     {
         $this->Friends = $Friends;
+
+        return $this;
+    }
+
+    public function getPfImage(): ?string
+    {
+        return $this->pfImage;
+    }
+
+    public function setPfImage(?string $pfImage): self
+    {
+        $this->pfImage = $pfImage;
 
         return $this;
     }

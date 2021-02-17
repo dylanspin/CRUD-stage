@@ -26,10 +26,10 @@ class UserController extends AbstractController
         $auth = $this->session->get('uyshsidybcksu1893');
         $setDate = new \DateTime(date('H:i:s'));
         $account = $entityManager->getRepository(Users::class)->findOneBy(['User_Id' => $auth]);
+        
         if($account)
         {
             $this->userInfo = $account;
-           
             $timeDiff = date_diff($account->getLastAuth(),$setDate);
             if($auth)
             {
@@ -58,7 +58,9 @@ class UserController extends AbstractController
             return $this->render('index/main.html.twig', [
                 'controller_name' => 'IndexController',
                 'name' => $this->userInfo->getUsername(),
+                'HCode' => $this->userInfo->getHcode(),
                 'contactPage' => '0',
+                'friends' => $this->getFriendInfo(),
             ]);
         }else{
             return $this->redirect("/login", 301);
@@ -76,10 +78,32 @@ class UserController extends AbstractController
             return $this->render('index/main.html.twig', [
                 'controller_name' => 'IndexController',
                 'name' => $this->userInfo->getUsername(),
+                'HCode' => $this->userInfo->getHcode(),
                 'contactPage' => '1',
+                'friends' => $this->getFriendInfo(),
             ]);
         }else{
             return $this->redirect("/login", 301);
+        }
+    }
+
+    private function getFriendInfo()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $serializedFriends = $this->userInfo->getFriends();
+        if(empty($serializedFriends))
+        {
+            dump("no friends");
+            return null;
+        }else{
+            $friends = unserialize($serializedFriends);
+            $friendNames = array();
+            for($i=0; $i<Count($friends); $i++)
+            {
+                $friend = $entityManager->getRepository(Users::class)->findOneBy(['Hcode' => $friends[$i]]);
+                array_push($friendNames,$friend->getUsername());
+            }
+            return $friendNames;
         }
     }
 
@@ -94,6 +118,9 @@ class UserController extends AbstractController
         {
             return $this->render('index/settings.html.twig', [
                 'controller_name' => 'IndexController',
+                'name' => $this->userInfo->getUsername(),
+                'hCode' => $this->userInfo->getHcode(),
+                'mail' => $this->userInfo->getEmail(),
             ]);
         }else{
             return $this->redirect("/login", 301);

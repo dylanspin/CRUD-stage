@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210215140000 extends AbstractMigration
+final class Version20210217094754 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,12 +20,12 @@ final class Version20210215140000 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE users ADD hcode VARCHAR(10) DEFAULT NULL, ADD groups LONGTEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE users ADD pf_image LONGTEXT DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE users DROP hcode, DROP groups');
+        $this->addSql('ALTER TABLE users DROP pf_image');
     }
 }

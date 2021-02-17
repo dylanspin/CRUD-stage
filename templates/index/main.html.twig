@@ -8,11 +8,12 @@
         window.REP_LOG_APP_PROPS = {
             contact: [
                 {
-                    id: '474637',
                     username: "{{name}}",
-                    contactPage : "{{contactPage}}"
+                    Hcode: "{{HCode}}",
+                    contactPage: "{{contactPage}}",
+                    friendsarray: [{{friends|json_encode|raw}}],
                 }
-            ]
+            ]  
         }
     </script>
 {% endblock %}

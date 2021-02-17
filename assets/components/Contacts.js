@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import Person from './Person';
 import RightSide from './RightSide';
 
+
 class Contacts extends React.Component 
 {
-
+    
     constructor(props) 
     {
         super(props);
         this.state = {
             typePage: this.props[0].contactPage,
+            friendsarray: this.props[0].friendsarray,
         }
+        console.log(this.state.friendsarray);
     }   
 
     friends()
@@ -50,7 +53,7 @@ class Contacts extends React.Component
                                 </div>
                                 <div className="row">
                                     <div className="col col-12">
-                                        <p className="smallT gray">#{this.props[0].id}</p>
+                                        <p className="smallT gray">#{this.props[0].Hcode}</p>
                                     </div>
                                 </div>
                             </div>
@@ -92,27 +95,9 @@ class Contacts extends React.Component
                     </div>
                     <h6 className="BerichText mt-4 mb-3 ml-4">Berichten :</h6>
                     <div className="scroller cScroll">
-                        {/* dit moet nog gehaalt worden uit de vrienden lijst */}
-                        <Person name="Dylan"></Person>
-                        <Person name="Levi"></Person>
-                        <Person name="JJ"></Person>
-                        <Person name="Kevin"></Person>
-                        <Person name="Luna"></Person>
-                        <Person name="Dylan"></Person>
-                        <Person name="Levi"></Person>
-                        <Person name="JJ"></Person>
-                        <Person name="Kevin"></Person>
-                        <Person name="Luna"></Person>
-                        <Person name="Dylan"></Person>
-                        <Person name="Levi"></Person>
-                        <Person name="JJ"></Person>
-                        <Person name="Kevin"></Person>
-                        <Person name="Luna"></Person>
-                        <Person name="Dylan"></Person>
-                        <Person name="Levi"></Person>
-                        <Person name="JJ"></Person>
-                        <Person name="Kevin"></Person>
-                        <Person name="Luna"></Person>
+                        {this.state.friendsarray[0].map(function(name, index){ /////////[0] iss BELANGRIJK
+                            return <Person key={ index } name={ name }/>;
+                        })}
                     </div>
                 </div>
                 <RightSide typePage={this.state.typePage}></RightSide>

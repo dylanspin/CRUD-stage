@@ -46,7 +46,7 @@ if (document.getElementById('Register'))
 
 if (document.getElementById('leftSetting')) 
 { 
-    ReactDOM.render(<LeftSettings/>, document.getElementById('leftSetting'));
+    ReactDOM.render(<LeftSettings {...window.REP_LOG_APP_PROPS.settings}/>, document.getElementById('leftSetting'));
 }
 
 
