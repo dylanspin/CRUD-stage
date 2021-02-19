@@ -13,7 +13,6 @@ class Contacts extends React.Component
             typePage: this.props[0].contactPage,
             friendsarray: this.props[0].friendsarray,
         }
-        console.log(this.state.friendsarray);
     }   
 
     friends()
@@ -95,8 +94,14 @@ class Contacts extends React.Component
                     </div>
                     <h6 className="BerichText mt-4 mb-3 ml-4">Berichten :</h6>
                     <div className="scroller cScroll">
-                        {this.state.friendsarray[0].map(function(name, index){ /////////[0] iss BELANGRIJK
-                            return <Person key={ index } name={ name }/>;
+                        {/* moet nog checken als er uberhoud vrienden hebt */}
+                        {this.state.friendsarray[0]?.map(function(name, index ){ /////////[0] iss BELANGRIJK
+                            if(name.length > 0)
+                            return (
+                                <div>
+                                    <Person key={ index } name={ name }/> 
+                                </div>
+                            )
                         })}
                     </div>
                 </div>

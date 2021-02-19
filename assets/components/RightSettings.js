@@ -76,11 +76,13 @@ class RightSettings extends React.Component
     overlay()
     {
         return(
-            console.log("test2"),
             <div className="inputOverlay">
-                <form className="" method="post" action="settings/changeName">
-                    
-                </form>
+                <div className="overlayVak">
+                    <form className="" method="POST" action="/settings/delete">
+                        <button className="verwijder scaleHover mt-4 mr-2 fullB" type="submit">Delete</button>
+                        <div className="verwijder scaleHover text-center" onClick={this.stopOverlay.bind(this)}>Cancel</div>
+                    </form>
+                </div>
             </div>
         );
     }
@@ -99,7 +101,7 @@ class RightSettings extends React.Component
                                 </div>
                             </div>
                             <div className="col col-6">
-                                <h4 className="white mt-4">Dylan Spin</h4><p className="smallT gray">#474637</p>
+                                <h4 className="white mt-4">{this.props.name}</h4><p className="smallT gray">#{this.props.hCode}</p>
                             </div>
                         </div>
                         <div className="innerOptions">
@@ -128,7 +130,7 @@ class RightSettings extends React.Component
                         <h4 className="white">Verwijder je account :</h4>
                         <p className="smallT gray"> als je account wilt verwijderen : </p>     
                     </div>        
-                    <div className="verwijder ml-5 scaleHover">Verwijder Account</div>
+                    <div className="verwijder ml-5 scaleHover" onClick={this.activateOverlay.bind(this)}>Verwijder Account</div>
                 </div>
             </div>
         );

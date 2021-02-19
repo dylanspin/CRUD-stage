@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Users;
 
+
 class FormController extends AbstractController
 {
 
@@ -78,7 +79,7 @@ class FormController extends AbstractController
     */
     public function addFriend(Request $req)
     {
-        $completed = $this->authCheck($req);
+        $completed = $this->authCheck();
         if($completed)
         {
             $added = $this->addFriendDB($req);
@@ -197,14 +198,44 @@ class FormController extends AbstractController
         return $this->redirect("/login", 301);
     }
 
-     /**
+    /**
      * @Route("/settings/delete", name="deleteAccount")
     */
     public function deleteAccount()
     {
-        $this->session->clear(); 
-        //delete user row and remove from the current users friends
+        //kwam er later achter dat ik CASCADE manier kon gebruiken als ik een extra frienden table had
+        if(!$this->user)
+        {
+            $completed = $this->authCheck();
+            if(!$completed)
+            {
+                return $this->redirect("/main", 301);
+            }
+        }
+        $myArray = $this->user->getFriends();
+        $entityManager = $this->getDoctrine()->getManager();
+        $myHCode = $this->user->getHcode();
+        if(!empty($myArray))
+        {
+            $myArray = unserialize($myArray);
+            for($i=0; $i<Count($myArray); $i++)
+            {
+                $friend = $entityManager->getRepository(Users::class)->findOneBy(['Hcode' => $myArray[$i]]);
+                if($friend)//double check als die er wel echt is
+                {
+                    $friendArray = Unserialize($friend->getFriends());
+                    $key = array_search($myHCode, $friendArray);
+                    unset($friendArray[$key]);
+                    $serializedfriendArray = serialize($friendArray);
+                    $friend->setFriends($serializedfriendArray);
+                    $entityManager->flush();
+                }
+            }
+        }
         
+        $entityManager->remove($this->user);
+        $entityManager->flush();
+        $this->session->clear(); 
         return $this->redirect("/registeren", 301);
     }
 }
