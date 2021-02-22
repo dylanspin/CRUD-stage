@@ -251,14 +251,25 @@ class FormController extends AbstractController
         $completed = $this->authCheck();
         if($completed)//check auth
         {   
-            $newImage = $req->get('newImage')->getData();
+            $newImage = $req->files->get('newImage');
             if(!empty($newImage))
             {
                 $entityManager = $this->getDoctrine()->getManager();
+                $uploadDirectory = $this->getParameter('uploads_directory'); //folder where the pfImage is saved
                 $nameImage = uniqid().'.'.$newImage->guessExtension();
-                // $nameImage = (uniqid($this->user->getHcode()))."jpg";//uniq id met de hcode als prefix
+                $oldImage = $this->user->getPfImage();
+                $newImage->move(
+                    $uploadDirectory,
+                    $nameImage
+                );
+
                 $this->user->setPfImage($nameImage);
                 $entityManager->flush();
+                if(!empty($oldImage))
+                {
+                    dump($uploadDirectory."/".$oldImage);
+                    unlink($uploadDirectory."/".$oldImage);
+                }
             }
             return $this->redirect("/settings", 301);
         }else{

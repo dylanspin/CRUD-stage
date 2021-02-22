@@ -5,7 +5,8 @@ import RightSide from './RightSide';
 
 class Contacts extends React.Component 
 {
-    
+    preset = "/Images/Profile/";
+
     constructor(props) 
     {
         super(props);
@@ -13,6 +14,7 @@ class Contacts extends React.Component
             typePage: this.props[0].contactPage,
             friendsarray: this.props[0].friendsarray,
         }
+        console.log(this.props);
     }   
 
     friends()
@@ -41,7 +43,7 @@ class Contacts extends React.Component
                     <div className="me">
                         <div className="row pt-3">
                             <div className="col col-2 ml-3 mr-1">
-                                <img className="profileImage" src="/Images/Profile/pf1.png" alt="Logo Main"/>
+                                <img className="profileImage" src={this.preset + this.props[0].profile} alt="Logo Main"/>
                                 <div className="status"></div>
                             </div>
                             <div className="col col-3">
@@ -94,11 +96,11 @@ class Contacts extends React.Component
                     </div>
                     <h6 className="BerichText mt-4 mb-3 ml-4">Berichten :</h6>
                     <div className="scroller cScroll">
-                        {this.state.friendsarray[0]?.map(function(name, index ){ /////////[0] iss BELANGRIJK
-                            if(name.length > 0)
+                        {this.state.friendsarray[0]?.map(function(slot, index ){ /////////[0] iss BELANGRIJK
+                            if(slot.length > 0)
                             return (
                                 <div>
-                                    <Person key={ index } name={ name }/> 
+                                    <Person key={ index } name={ slot[0] } image={ slot[1] }/> 
                                 </div>
                             )
                         })}

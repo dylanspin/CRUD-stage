@@ -1,18 +1,51 @@
 import React from 'react';
 
-
 class RightSettings extends React.Component 
 {
 
-    typePage = 0;   
+    typePage = 0;       
+    preset = "/Images/Profile/";
 
     constructor(props) 
     {
         super(props);
         this.state = {
             overlayActive: 10,
+            file:null,
         }
     } 
+
+    activateOverlay(overlayType)
+    {
+        this.setState({
+            overlayActive: overlayType,
+        });
+    }
+
+    stopOverlay()
+    {
+        this.setState({
+            overlayActive: 10,
+        });
+    }
+
+    triggerInput()
+    {
+        console.log("trigger");
+        document.getElementById("newImage").click();
+    }
+
+    submitForm()
+    {
+        document.getElementById("imageForm").submit();
+    }   
+
+    
+    handleFile()
+    {
+        document.getElementById("imageForm").submit();
+    }
+
 
     render()
     {
@@ -57,32 +90,6 @@ class RightSettings extends React.Component
                     );
                 }
         }
-    }
-
-    activateOverlay(overlayType)
-    {
-        this.setState({
-            overlayActive: overlayType,
-        });
-    }
-
-    stopOverlay()
-    {
-        this.setState({
-            overlayActive: 10,
-        });
-    }
-
-    triggerInput()
-    {
-        console.log("trigger");
-        document.getElementById("newImage").click();
-    }
-
-    submitForm()
-    {
-        console.log(document.getElementById("newImage").value);
-        // document.getElementById("imageForm").submit();
     }
 
     overlay()///moet die outer er om heen zien te krijgen waar door dit korter word.
@@ -204,10 +211,10 @@ class RightSettings extends React.Component
                     <div className="profileVak">
                         <div className="row">
                             <div className="col col-2">
-                                <form className="optionImage m-3 scaleHover" action="/settings/changePf" id="imageForm" method="POST">
-                                    <input type="file" accept="image/*" id="newImage" name="newImage" className="hiddenFile" onChange={this.submitForm.bind(this)}/>
+                                <form className="optionImage m-3 scaleHover" action="/settings/changePf" id="imageForm" method="POST"  encType="multipart/form-data">
+                                    <input type="file" accept="image/*" id="newImage" name="newImage" className="hiddenFile" onChange={this.handleFile.bind(this)}/>
                                     <i className="fa fa-pencil hiddenText white" aria-hidden="true"></i>
-                                    <img className="InnerImage" src="/Images/Profile/pf1.png" alt="Logo Main" onClick={this.triggerInput.bind(this)}/>
+                                    <img className="InnerImage" src={this.preset + this.props.profile} alt="Logo Main" onClick={this.triggerInput.bind(this)}/>
                                 </form>
                             </div>
                             <div className="col col-6">

@@ -13,6 +13,7 @@ class UserController extends AbstractController
 
     private $session;
     private $userInfo;
+    private $userImage;
 
     public function __construct(SessionInterface $session)
     {
@@ -30,6 +31,12 @@ class UserController extends AbstractController
         if($account)
         {
             $this->userInfo = $account;
+            if(empty($account->getPfImage()))
+            {
+                $this->userImage = "noImage.png";
+            }else{
+                $this->userImage = $account->getPfImage();
+            }
             $timeDiff = date_diff($account->getLastAuth(),$setDate);
             if($auth)
             {
@@ -61,6 +68,7 @@ class UserController extends AbstractController
                 'HCode' => $this->userInfo->getHcode(),
                 'contactPage' => '0',
                 'friends' => $this->getFriendInfo(),
+                'pf' => $this->userImage,
             ]);
         }else{
             return $this->redirect("/login", 301);
@@ -81,6 +89,7 @@ class UserController extends AbstractController
                 'HCode' => $this->userInfo->getHcode(),
                 'contactPage' => '1',
                 'friends' => $this->getFriendInfo(),
+                'pf' => $this->userImage,
             ]);
         }else{
             return $this->redirect("/login", 301);
@@ -101,7 +110,15 @@ class UserController extends AbstractController
             for($i=0; $i<Count($friends); $i++)
             {
                 $friend = $entityManager->getRepository(Users::class)->findOneBy(['Hcode' => $friends[$i]]);
-                array_push($friendNames,$friend->getUsername());
+                if(empty($friend->getPfImage()))
+                {
+                    $image = "noImage.png";
+                }else{
+                    $image = $friend->getPfImage();
+                }
+                array_push($friendNames,
+                    [$friend->getUsername(),$image]
+                );
             }
             return $friendNames;
         }
@@ -121,6 +138,7 @@ class UserController extends AbstractController
                 'name' => $this->userInfo->getUsername(),
                 'hCode' => $this->userInfo->getHcode(),
                 'mail' => $this->userInfo->getEmail(),
+                'pf' => $this->userImage,
             ]);
         }else{
             return $this->redirect("/login", 301);

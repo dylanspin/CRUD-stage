@@ -62,6 +62,7 @@ class LeftSettings extends React.Component
                     name={this.props[0].name}
                     hCode={this.props[0].hCode} 
                     mail={this.props[0].mail}
+                    profile={this.props[0].profile}
                 >
                 </RightSettings>
             </div>
