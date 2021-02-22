@@ -67,6 +67,11 @@ class Users
      */
     private $pfImage;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $birthDate;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -193,6 +198,18 @@ class Users
     public function setPfImage(?string $pfImage): self
     {
         $this->pfImage = $pfImage;
+
+        return $this;
+    }
+
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(\DateTimeInterface $birthDate): self
+    {
+        $this->birthDate = $birthDate;
 
         return $this;
     }

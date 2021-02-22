@@ -94,7 +94,6 @@ class Contacts extends React.Component
                     </div>
                     <h6 className="BerichText mt-4 mb-3 ml-4">Berichten :</h6>
                     <div className="scroller cScroll">
-                        {/* moet nog checken als er uberhoud vrienden hebt */}
                         {this.state.friendsarray[0]?.map(function(name, index ){ /////////[0] iss BELANGRIJK
                             if(name.length > 0)
                             return (

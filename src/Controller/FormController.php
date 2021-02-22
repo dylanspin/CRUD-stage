@@ -54,7 +54,11 @@ class FormController extends AbstractController
         $completed = $this->CheckRegisterDB($req);
         if($completed)
         {
-            return $this->redirect("/main", 301);
+            return $this->render('index/login.html.twig', [
+                'controller_name' => 'IndexController',
+                'login' => true,
+            ]);
+            // return $this->redirect("/login", 301);
         }else{
             return $this->redirect("/registeren", 301);
         }
@@ -165,17 +169,57 @@ class FormController extends AbstractController
         $existCheck = $entityManager->getRepository(Users::class)->findOneBy(['Email' => $req->get('Email')]);
         if(!$existCheck)
         {
-            $newUser = new Users();
-            $newUser->setUsername($req->get('Username'));
-            $newUser->setPassword($req->get('Password'));
-            $newUser->setEmail($req->get('Email'));
-            $newUser->setUserId(uniqid('CRUD'));
-            $newUser->setJoined(new \DateTime(date('H:i:s')));
-            
-            $em->persist($newUser);
-            $em->flush();
-            $this->setHrCode($newUser);
-            return true;
+            $birthDate = new \DateTime($req->get('GeboorteDatum'));
+            $email = $req->get('Email');
+            $password = $req->get('Password');
+            $username = $req->get('Username');
+            $checks = array();
+
+            //fout meldingen moeten nog gedisplayed worden
+            if (strlen($password) < 8) 
+            {
+                array_push($checks,"Wachtwoord is tekort");
+            }
+            if (!preg_match("#[0-9]+#", $password)) 
+            {
+                array_push($checks,"Wachtwoord moet een nummer hebben");
+            }
+            if (!preg_match("#[a-zA-Z]+#", $password)) 
+            {
+                array_push($checks,"Wachtwoord moet teminste een letter hebben");
+            }
+            if (empty($username)) 
+            {
+                array_push($checks,"Geen gebruikersNaam");
+            }
+            if (empty($email)) 
+            {
+                array_push($checks,"Geen email");
+            }
+            if (empty($birthDate)) 
+            {
+                array_push($checks,"Geen GeboorteDatum");
+            }
+            if(!filter_var($email, FILTER_VALIDATE_EMAIL))
+            {
+                array_push($checks,"Geen goed email");
+            }
+            if(Count($checks) == 0)
+            {
+                $newUser = new Users();
+                $newUser->setUsername($username);
+                $newUser->setPassword($password);
+                $newUser->setEmail($email);
+                $newUser->setUserId(uniqid('CRUD'));
+                $newUser->setJoined(new \DateTime(date('H:i:s')));
+                $newUser->setBirthDate($birthDate);
+                $em->persist($newUser);
+                $em->flush();
+                $this->setHrCode($newUser);   
+                return true;
+            }else{
+                return false;
+            }
         }else{
             return false;
         }
@@ -198,44 +242,163 @@ class FormController extends AbstractController
         return $this->redirect("/login", 301);
     }
 
+    
+    /**
+     * @Route("/settings/changePf", name="changePf")
+    */
+    public function changePf(Request $req)
+    {
+        $completed = $this->authCheck();
+        if($completed)//check auth
+        {   
+            $newImage = $req->get('newImage')->getData();
+            if(!empty($newImage))
+            {
+                $entityManager = $this->getDoctrine()->getManager();
+                $nameImage = uniqid().'.'.$newImage->guessExtension();
+                // $nameImage = (uniqid($this->user->getHcode()))."jpg";//uniq id met de hcode als prefix
+                $this->user->setPfImage($nameImage);
+                $entityManager->flush();
+            }
+            return $this->redirect("/settings", 301);
+        }else{
+            return $this->redirect("/login", 301); 
+        }
+    }
+
+    /**
+     * @Route("/settings/newUsername", name="newUsername")
+    */
+    public function newUsername(Request $req)
+    {
+        $completed = $this->authCheck();
+        if($completed)//check auth
+        {   
+            $username = $req->get('Username');
+            if(!empty($username))//check if username is not empty
+            {
+                $entityManager = $this->getDoctrine()->getManager();
+                $this->user->setUsername($username);
+                $entityManager->flush();
+            }
+            return $this->redirect("/settings", 301);
+        }else{
+            return $this->redirect("/login", 301); 
+        }
+    }
+
+    /**
+     * @Route("/settings/newEmail", name="newEmail")
+    */
+    public function newEmail(Request $req)
+    {
+        $completed = $this->authCheck();
+        if($completed)//check auth
+        {   
+            $email = $req->get('email');
+            if(!empty($email))//check if not empty
+            {
+                $entityManager = $this->getDoctrine()->getManager();
+                $existCheck = $entityManager->getRepository(Users::class)->findOneBy(['Email' => $email]);
+                if(!$existCheck)//check if email exist
+                {
+                    if(filter_var($email, FILTER_VALIDATE_EMAIL))//check if email is valid
+                    {
+                        $this->user->setEmail($email);
+                        $entityManager->flush();
+                    }
+                }
+            }
+            return $this->redirect("/settings", 301);
+        }else{
+            return $this->redirect("/login", 301);
+        }
+    }
+
+    /**
+     * @Route("/settings/newPassword", name="newPassword")
+    */
+    public function updateWachtwoord(Request $req)
+    {
+        $completed = $this->authCheck();
+        if($completed)//check auth
+        {
+            $oldPassword = $req->get('oldPassword');
+            $password1 = $req->get('password1');
+            $password2 = $req->get('password2');
+            if($this->user->getPassword() == $oldPassword)//checks if old password is correct
+            {
+                if(Count($this->checkPassword($password1)) == 0)//checks if the new password is strong enough
+                {
+                    if($password1 == $password2)//checks if the 2 passwords are the same
+                    {
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $this->user->setPassword($password1);
+                        $entityManager->flush();
+                    }
+                }
+            }
+            return $this->redirect("/settings", 301);
+        }else{
+            return $this->redirect("/login", 301);
+        }
+    }
+
+
+    private function checkPassword($password)
+    {
+        $checks = array();
+        if (strlen($password) < 8) 
+        {
+            array_push($checks,"Wachtwoord is tekort");
+        }
+        if (!preg_match("#[0-9]+#", $password)) 
+        {
+            array_push($checks,"Wachtwoord moet een nummer hebben");
+        }
+        if (!preg_match("#[a-zA-Z]+#", $password)) 
+        {
+            array_push($checks,"Wachtwoord moet teminste een letter hebben");
+        } 
+        return $checks;
+    }
+
     /**
      * @Route("/settings/delete", name="deleteAccount")
     */
     public function deleteAccount()
     {
         //kwam er later achter dat ik CASCADE manier kon gebruiken als ik een extra frienden table had
-        if(!$this->user)
+
+        $completed = $this->authCheck();
+        if($completed)//check auth
         {
-            $completed = $this->authCheck();
-            if(!$completed)
+            $myArray = $this->user->getFriends();
+            $entityManager = $this->getDoctrine()->getManager();
+            $myHCode = $this->user->getHcode();
+            if(!empty($myArray))//checks if the user has friends
             {
-                return $this->redirect("/main", 301);
-            }
-        }
-        $myArray = $this->user->getFriends();
-        $entityManager = $this->getDoctrine()->getManager();
-        $myHCode = $this->user->getHcode();
-        if(!empty($myArray))
-        {
-            $myArray = unserialize($myArray);
-            for($i=0; $i<Count($myArray); $i++)
-            {
-                $friend = $entityManager->getRepository(Users::class)->findOneBy(['Hcode' => $myArray[$i]]);
-                if($friend)//double check als die er wel echt is
+                $myArray = unserialize($myArray);
+                for($i=0; $i<Count($myArray); $i++)
                 {
-                    $friendArray = Unserialize($friend->getFriends());
-                    $key = array_search($myHCode, $friendArray);
-                    unset($friendArray[$key]);
-                    $serializedfriendArray = serialize($friendArray);
-                    $friend->setFriends($serializedfriendArray);
-                    $entityManager->flush();
+                    $friend = $entityManager->getRepository(Users::class)->findOneBy(['Hcode' => $myArray[$i]]);
+                    if($friend)//double check if friend exist
+                    {
+                        $friendArray = Unserialize($friend->getFriends());
+                        $key = array_search($myHCode, $friendArray);
+                        unset($friendArray[$key]);
+                        $serializedfriendArray = serialize($friendArray);
+                        $friend->setFriends($serializedfriendArray);
+                        $entityManager->flush();//the user is removed from the friend friendslist 
+                    }
                 }
             }
+            $entityManager->remove($this->user);//deletes user 
+            $entityManager->flush();
+            $this->session->clear(); 
+            return $this->redirect("/registeren", 301);
+        }else{
+            return $this->redirect("/login", 301);
         }
-        
-        $entityManager->remove($this->user);
-        $entityManager->flush();
-        $this->session->clear(); 
-        return $this->redirect("/registeren", 301);
     }
 }

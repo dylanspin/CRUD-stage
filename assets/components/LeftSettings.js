@@ -45,7 +45,7 @@ class LeftSettings extends React.Component
                                 App Instellingen
                             </div>
                             <div className="option optionNormal mt-1" onClick={this.goToPage.bind(this,'2')}>
-                                <p className="pt-1 pl-2">Meldingen</p>
+                                <p className="pt-1 pl-2">Groups</p>
                             </div>
                             <div className="optionLine mt-1"></div>
                             <form method="POST" action="/settings/logout" name="logoutForm">
