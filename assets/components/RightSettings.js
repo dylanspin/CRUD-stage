@@ -11,7 +11,6 @@ class RightSettings extends React.Component
         super(props);
         this.state = {
             overlayActive: 10,
-            file:null,
         }
     } 
 

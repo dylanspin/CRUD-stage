@@ -14,7 +14,6 @@ class Contacts extends React.Component
             typePage: this.props[0].contactPage,
             friendsarray: this.props[0].friendsarray,
         }
-        console.log(this.props);
     }   
 
     friends()
@@ -100,13 +99,13 @@ class Contacts extends React.Component
                             if(slot.length > 0)
                             return (
                                 <div>
-                                    <Person key={ index } name={ slot[0] } image={ slot[1] }/> 
+                                    <Person key={index} name={slot[0]} image={slot[1]}/> 
                                 </div>
                             )
                         })}
                     </div>
                 </div>
-                <RightSide typePage={this.state.typePage}></RightSide>
+                <RightSide typePage={this.state.typePage} friendsarray={this.state.friendsarray}></RightSide>
             </div>
         );
     }

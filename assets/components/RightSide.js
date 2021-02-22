@@ -7,6 +7,15 @@ class RightSide extends React.Component
 {
     typePage = 0;
 
+    constructor(props) 
+    {
+        super(props);
+        this.state = {
+            friendsarray: this.props.friendsarray,
+        }
+        console.log(this.props);
+    }
+
     render()
     {
         switch(this.props.typePage) {
@@ -113,9 +122,14 @@ class RightSide extends React.Component
                                 </div>
                             </div>
                         </form>
-                        <Friend></Friend>
-                        <Friend></Friend>
-                        <Friend></Friend>
+                        {this.state.friendsarray[0]?.map(function(slot, index ){
+                            if(slot.length > 0)
+                            return (
+                                <div>
+                                    <Friend key={index} name={slot[0]} image={slot[1]}/>
+                                </div>
+                            )
+                        })}
                     </div>
                 </div>
             </div>
