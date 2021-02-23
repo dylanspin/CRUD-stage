@@ -13,21 +13,23 @@ class Contacts extends React.Component
         this.state = {
             typePage: this.props[0].contactPage,
             friendsarray: this.props[0].friendsarray,
+            friendSelected: 0,
         }
     }   
 
     friends()
     {
-        if(this.state.typePage == '0')
-        {
-            this.setState({
-                typePage: '1',
-            });
-        }else{
-            this.setState({
-                typePage: '0',
-            });
-        }
+        this.setState({
+            typePage: '1',
+        });
+    }
+
+    setMessages(frienNum)
+    {
+        this.setState({
+            typePage: '0',
+            friendSelected:frienNum,
+        });
     }
 
     render()
@@ -95,17 +97,18 @@ class Contacts extends React.Component
                     </div>
                     <h6 className="BerichText mt-4 mb-3 ml-4">Berichten :</h6>
                     <div className="scroller cScroll">
-                        {this.state.friendsarray[0]?.map(function(slot, index ){ /////////[0] iss BELANGRIJK
+                        {this.state.friendsarray[0]?.map(function(slot, index){ 
                             if(slot.length > 0)
                             return (
-                                <div>
-                                    <Person key={index} name={slot[0]} image={slot[1]}/> 
+                                <div key={index}>
+                                    <Person num={index} name={slot[0]} image={slot[1]} setMessages={this.setMessages.bind(this)}/> 
                                 </div>
                             )
-                        })}
+                        }.bind(this))}
+                        {/* bind(this) is belangrijkk*/}
                     </div>
                 </div>
-                <RightSide typePage={this.state.typePage} friendsarray={this.state.friendsarray}></RightSide>
+                <RightSide typePage={this.state.typePage} friendsarray={this.state.friendsarray} friend={this.state.friendSelected}></RightSide>
             </div>
         );
     }

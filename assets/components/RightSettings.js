@@ -30,7 +30,6 @@ class RightSettings extends React.Component
 
     triggerInput()
     {
-        console.log("trigger");
         document.getElementById("newImage").click();
     }
 
@@ -91,7 +90,7 @@ class RightSettings extends React.Component
         }
     }
 
-    overlay()///moet die outer er om heen zien te krijgen waar door dit korter word.
+    overlay()
     {
         if(this.state.overlayActive == 0)
         {

@@ -10,22 +10,24 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210215140000 extends AbstractMigration
+final class Version20210223103935 extends AbstractMigration
 {
     public function getDescription() : string
     {
         return '';
     }
-    
+
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE users ADD hcode VARCHAR(10) DEFAULT NULL, ADD groups LONGTEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE groups ADD image LONGTEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE users CHANGE hcode hcode VARCHAR(10) NOT NULL');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE users DROP hcode, DROP groups');
+        $this->addSql('ALTER TABLE groups DROP image');
+        $this->addSql('ALTER TABLE users CHANGE hcode hcode VARCHAR(10) CHARACTER SET utf8mb4 DEFAULT NULL COLLATE `utf8mb4_unicode_ci`');
     }
 }

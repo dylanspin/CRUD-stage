@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
 
-class Person extends React.Component 
+class Group extends React.Component 
 {
-    name = "";
-    image = "";
+    preset = "/Images/group/";
 
     render()
     {
-        return (
-            <div className="group m-3">
-                <div className="circle"></div>
-                <img className="groupImage" src="/Images/Profile/pf1.png" alt="Logo Main"/>
-            </div>
-        );
+        if(this.props.image)
+        {
+            return (
+                <div className="group m-3">
+                    <div className="circle"></div>
+                    <img className="groupImage" src={this.preset + this.props.image} alt="Logo Main"/>
+                </div>
+            );
+        }else{
+            return (
+                <div className="group m-3 blue">
+                    <div className="circle"></div>
+                    <h2 className="white pt-2">{this.props.name[0][0]}</h2>
+                </div>
+            );
+        }
     }
 }
 
-export default Person;
+export default Group;

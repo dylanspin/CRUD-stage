@@ -27,7 +27,7 @@ class App extends React.Component
 //main
 if (document.getElementById('left')) 
 {
-    ReactDOM.render(<LeftSide/>, document.getElementById('left'));
+    ReactDOM.render(<LeftSide  {...window.REP_LOG_APP_PROPS.leftSide}/>, document.getElementById('left'));
 }
 if (document.getElementById('contacts')) 
 {

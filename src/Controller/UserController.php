@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\Users;
+use App\Entity\Groups;
 
 class UserController extends AbstractController
 {
@@ -54,6 +55,7 @@ class UserController extends AbstractController
         }
     }
 
+    //////dit kan nog anders korter moet nog 
     /**
      * @Route("/main", name="main")
     */
@@ -68,6 +70,7 @@ class UserController extends AbstractController
                 'HCode' => $this->userInfo->getHcode(),
                 'contactPage' => '0',
                 'friends' => $this->getFriendInfo(),
+                'groups' => $this->getGroups(),
                 'pf' => $this->userImage,
             ]);
         }else{
@@ -89,6 +92,7 @@ class UserController extends AbstractController
                 'HCode' => $this->userInfo->getHcode(),
                 'contactPage' => '1',
                 'friends' => $this->getFriendInfo(),
+                'groups' => $this->getGroups(),
                 'pf' => $this->userImage,
             ]);
         }else{
@@ -121,6 +125,34 @@ class UserController extends AbstractController
                 );
             }
             return $friendNames;
+        }
+    }
+
+    private function getGroups()
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $serializedGroups = $this->userInfo->getGroups();
+        if(empty($serializedGroups))
+        {
+            dump("no friends");
+            return null;
+        }else{
+            $Groups = unserialize($serializedGroups);
+            $groupsList = array();
+            for($i=0; $i<Count($Groups); $i++)
+            {
+                $group = $entityManager->getRepository(Groups::class)->findOneBy(['name' => $Groups[$i]]);
+                if(empty($group->getImage()))
+                {
+                    $image = null;
+                }else{
+                    $image = $group->getImage();
+                }
+                array_push($groupsList,
+                    [$group->getName(),$image]
+                );
+            }
+            return $groupsList;
         }
     }
 

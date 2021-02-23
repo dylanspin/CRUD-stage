@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Users;
+use App\Entity\Groups;
 
 
 class FormController extends AbstractController
@@ -242,7 +243,91 @@ class FormController extends AbstractController
         return $this->redirect("/login", 301);
     }
 
-    
+    /**
+     * @Route("/settings/searchGroup", name="searchGroup")
+    */
+    public function searchGroup(Request $req)
+    {
+        $completed = $this->authCheck();
+        if($completed)//check auth
+        {   
+            $groupName = $req->get('SearchGroup');//group name
+            $entityManager = $this->getDoctrine()->getManager();
+            $findGroup = $entityManager->getRepository(Groups::class)->findOneBy(['name' => $groupName]);
+            if($findGroup)
+            {
+                $currentGroups = unserialize($this->user->getGroups());
+                if(empty($currentGroups) || !in_array($groupName,$currentGroups))
+                {
+                    $members = unserialize($findGroup->getMembers());
+                    $perms = unserialize($findGroup->getPermisions());
+
+                    array_push($members,$this->user->getHcode());
+                    array_push($perms,0);
+                    array_push($currentGroups,$groupName);
+
+                    $this->user->setGroups(serialize($currentGroups));
+                    $findGroup->setMembers(serialize($members));
+                    $findGroup->setPermisions(serialize($perms));
+
+                    $entityManager->flush();
+                }
+            }
+            return $this->redirect("/main", 301);
+        }else{
+            return $this->redirect("/login", 301); 
+        }
+    }
+
+    /**
+     * @Route("/settings/creatGroup", name="creatGroup")
+    */
+    public function creatGroup(Request $req)
+    {
+        $completed = $this->authCheck();
+        if($completed)//check auth
+        {   
+            $groupName = $req->get('Group');//group name
+            $entityManager = $this->getDoctrine()->getManager();
+            $existCheck = $entityManager->getRepository(Groups::class)->findOneBy(['name' => $groupName]);
+            if(!$existCheck)
+            {
+                $currentGroups = unserialize($this->user->getGroups());
+                if(empty($currentGroups) || !in_array($groupName,$currentGroups))//als de user er niet al in zit of als de de array empty is
+                {
+                    dump("test");
+                    if(empty($currentGroups))
+                    {
+                        $currentGroups = [$groupName];
+                    }else{
+                        array_push($currentGroups,$groupName);
+                    }
+
+                    $this->user->setGroups(serialize($currentGroups));
+                    $entityManager->flush();
+
+                    $members = [$this->user->getHcode()];//sets you as first member and have level 3 permision
+                    $perm = [3];
+                    $chats = ["Text Channel"];//first textChat name
+                    
+                    $newGroup = new Groups();
+                    $newGroup->setName($groupName);
+                    $newGroup->setCreated(new \DateTime(date('H:i:s')));
+                    $newGroup->setMembers(serialize(($members)));
+                    $newGroup->setPermisions(serialize(($perm)));
+                    $newGroup->setChats(serialize(($chats)));
+                    $entityManager->persist($newGroup);
+                    $entityManager->flush();
+                }
+            }else{
+                //moet nog een melding komen van dat de group all bestaat
+            }
+            return $this->redirect("/main", 301);
+        }else{
+            return $this->redirect("/login", 301); 
+        }
+    }
+
     /**
      * @Route("/settings/changePf", name="changePf")
     */

@@ -14,7 +14,12 @@
                     friendsarray: [{{friends|json_encode|raw}}],
                     profile: "{{pf}}",
                 }
-            ]  
+            ],
+            leftSide : [
+                {
+                    groups: [{{groups|json_encode|raw}}],
+                }
+            ]
         }
     </script>
 {% endblock %}

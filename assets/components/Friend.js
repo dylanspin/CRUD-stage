@@ -27,7 +27,7 @@ class Friend extends React.Component
                         <p className="smallT d-inline ml-3 gray">#77647</p>
                     </div>
                     <div className=" messageText dWhite">
-                        dsdsdad jifnu sbn fijbdsuif nuisfnbsd nfjksdnfd
+                        Een random status
                     </div>
                     <div className="rightFriend">
                         <div className="friendCircle">
