@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use App\Entity\Users;
 use App\Entity\Groups;
+use App\Entity\Chats;
+use App\Entity\Message;
 
 class UserController extends AbstractController
 {
@@ -64,15 +66,28 @@ class UserController extends AbstractController
         $check = $this->authCheck();
         if($check)
         {
-            return $this->render('index/main.html.twig', [
-                'controller_name' => 'IndexController',
-                'name' => $this->userInfo->getUsername(),
-                'HCode' => $this->userInfo->getHcode(),
-                'contactPage' => '0',
-                'friends' => $this->getFriendInfo(),
-                'groups' => $this->getGroups(),
-                'pf' => $this->userImage,
-            ]);
+            $info = $this->getFriendInfo();
+            $Current = $this->session->get('current');
+            if(!$Current)
+            {
+                $Current = 0;
+            }
+            if($info == null)
+            {
+                return $this->redirect("/main/friends", 301);
+            }else{
+                return $this->render('index/main.html.twig', [
+                    'controller_name' => 'IndexController',
+                    'name' => $this->userInfo->getUsername(),
+                    'HCode' => $this->userInfo->getHcode(),
+                    'contactPage' => '0',
+                    'friends' => $this->getFriendInfo(),
+                    'groups' => $this->getGroups(),
+                    'messages' => $this->getMessages(),
+                    'pf' => $this->userImage,
+                    'selected' => $Current,
+                ]);
+            }
         }else{
             return $this->redirect("/login", 301);
         }
@@ -93,7 +108,9 @@ class UserController extends AbstractController
                 'contactPage' => '1',
                 'friends' => $this->getFriendInfo(),
                 'groups' => $this->getGroups(),
+                'messages' => $this->getMessages(),
                 'pf' => $this->userImage,
+                'selected' => 0,
             ]);
         }else{
             return $this->redirect("/login", 301);
@@ -104,11 +121,11 @@ class UserController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $serializedFriends = $this->userInfo->getFriends();
-        if(empty($serializedFriends))
+        if(empty($serializedFriends))//no friends
         {
-            dump("no friends");
             return null;
         }else{
+            $chats = unserialize($this->userInfo->getChats());
             $friends = unserialize($serializedFriends);
             $friendNames = array();
             for($i=0; $i<Count($friends); $i++)
@@ -121,7 +138,7 @@ class UserController extends AbstractController
                     $image = $friend->getPfImage();
                 }
                 array_push($friendNames,
-                    [$friend->getUsername(),$image]
+                    [$friend->getUsername(),$image,$chats[$i]]
                 );
             }
             return $friendNames;
@@ -132,9 +149,8 @@ class UserController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $serializedGroups = $this->userInfo->getGroups();
-        if(empty($serializedGroups))
+        if(empty($serializedGroups))//no friends
         {
-            dump("no friends");
             return null;
         }else{
             $Groups = unserialize($serializedGroups);
@@ -156,6 +172,38 @@ class UserController extends AbstractController
         }
     }
 
+
+    private function getMessages()
+    {
+        $chats = unserialize($this->userInfo->getChats());
+        $chatMessages = array();
+        if(!empty($chats))
+        {
+            for($i=0; $i<Count($chats); $i++)
+            {
+                if($chats[$i] != null)
+                {
+                    $repository = $this->getDoctrine()->getRepository(Message::class);
+                    $messages = $repository->findBy(
+                        ['chatId' => $chats[$i]]
+                    );
+    
+                    $infoArray = array();
+                    for($b=0; $b<count($messages); $b++)
+                    {   
+                        $tempArray = [$messages[$b]->getUserOne(),$messages[$b]->getContent(),$messages[$b]->getSend()->format('H:i:s')];
+                        array_push($infoArray,
+                            $tempArray
+                        );
+                    }
+                    array_push($chatMessages,$infoArray);
+                }
+            }
+            return ($chatMessages);
+        }else{
+            return null;
+        }
+    }
 
     /**
      * @Route("/settings", name="settings")

@@ -5,12 +5,6 @@ class Message extends React.Component
     constructor(props) 
     {
 		super(props);
-		this.state = {
-			name : "Dylan Spin",
-			message : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sed lectus eu justo malesuada congue. Proin blandit, erat ac tempor semper",
-            date: "11-2-2021 14:40",
-            image: "",
-		}
 	}
 
     render()
@@ -18,13 +12,13 @@ class Message extends React.Component
         return (
             <div>
                 <div className="message white heebo">
-                    <img className="messageImage" src="/Images/Profile/pf1.png" alt="Logo Main"/>
+                    <img className="messageImage" src={"/Images/Profile/"+this.props.sender[1]} alt="Logo Main"/>
                     <div className="messageIfo">
-                        <h5 className="d-inline">{this.state.name}</h5>
-                        <p className="smallT d-inline ml-3 gray">{this.state.date}</p>
+                        <h5 className="d-inline">{this.props.sender[0]}</h5>
+                        <p className="smallT d-inline ml-3 gray">{this.props.date}</p>
                     </div>
                     <div className=" messageText dWhite">
-                        {this.state.message}
+                        {this.props.text}
                     </div>
                 </div>
             </div>

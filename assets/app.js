@@ -10,20 +10,6 @@ import './styles/app.css';
 import './bootstrap';
 
 
-class App extends React.Component 
-{
-    render() 
-    {
-        return (
-            <NewContentProvider>
-                <PersonForm></PersonForm>
-                <ContentTable></ContentTable>
-            </NewContentProvider>
-        )
-    }
-}
-
-
 //main
 if (document.getElementById('left')) 
 {

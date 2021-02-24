@@ -313,8 +313,10 @@ body {
     background-color: #40444B;
 }
 .barInput{
+    position: relative;
+    bottom: 5px;
     border: none;
-    height: 30px;
+    height: 35px;
     width: 90%;
     font-size: 18px;
     padding: 5px;

@@ -12,7 +12,9 @@ class RightSide extends React.Component
         super(props);
         this.state = {
             friendsarray: this.props.friendsarray,
+            me: this.props.me,
             selected: this.props.friend,
+            messages: this.props.messages[0],
         }
     }
 
@@ -42,6 +44,7 @@ class RightSide extends React.Component
         {
             this.setState({
                 selected: this.props.friend,
+                messages: this.props.messages[0],
             });
         }
     }
@@ -50,7 +53,6 @@ class RightSide extends React.Component
     {
         if(this.state.friendsarray.length)
         {
-            console.log(this.state.selected + " " + this.props.friend);
             this.setFriend()//set state
             return (
                 <div className="right">
@@ -58,7 +60,6 @@ class RightSide extends React.Component
                         <div className="versions">
                             <div className="leftHeader pt-1">
                                 <h3 className="gray d-inline ml-3">@</h3> 
-                                {/* <h5 className="white d-inline ml-1 ">{this.state.friendsarray[0][this.state.selected]}</h5> */}
                                 <h5 className="white d-inline ml-1 ">{this.state.friendsarray[0][this.state.selected][0]}</h5>
                             </div>
                             <div className="RightHeader">
@@ -82,26 +83,32 @@ class RightSide extends React.Component
                     </div>
                     <div className="messages">
                         <div className="scroll">
-                            <Message></Message>
-                            <Message></Message>
-                            <Message></Message>
-                            <Message></Message>
-                            <Message></Message>
-                            <Message></Message>
-                            <Message></Message>
-                            <Message></Message>
-                            <Message></Message>
-                            <Message></Message>
-                            <Message></Message>
-                            <Message></Message>
-                            <Message></Message>
+                            {this.state.messages[this.state.selected]?.map(function(slot, index ){
+                                if(slot.length > 0)
+                                if(slot[0] == this.state.me[2])
+                                {
+                                    return (
+                                        <div key={index}>
+                                            <Message text={slot[1]} date={slot[2]} sender={this.state.me}></Message>
+                                        </div>
+                                    )
+                                }else{
+                                    return (
+                                        <div key={index}>
+                                            <Message text={slot[1]} date={slot[2]} sender={this.state.friendsarray[0][this.state.selected]}></Message>
+                                        </div>
+                                    )
+                                }
+                            }.bind(this))}
                         </div>
                         <div className="writeBar">
-                            <form className="bar">
+                            <form className="bar" action="/message/Send" method="POST">
                                 <div className="row">
                                     <div className="col col-11 mt-1 ml-2">
                                         <i className="fa fa-plus-circle barIcon m-1 mr-2 gray" aria-hidden="true"></i>
-                                        <textarea className="barInput white" type="text" id="message" name="message" placeholder="Bericht versturen" rows="1"/>
+                                        <input type="hidden" id="Current" name="Current" defaultValue={this.state.selected}/>
+                                        <input type="hidden" id="chatId" name="chatId" defaultValue={this.state.friendsarray[0][this.state.selected][2]}/>
+                                        <input type="text" id="message" name="message" placeholder="Bericht versturen" className="barInput white" autoComplete="off" required/>
                                     </div>
                                     <div className="col mt-1">
                                         <i className="fa fa-file-video-o barIcon m-1 mr-3 gray" aria-hidden="true"></i>

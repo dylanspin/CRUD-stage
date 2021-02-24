@@ -9,7 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Users;
 use App\Entity\Groups;
-
+use App\Entity\Chats;
+use App\Entity\Message;
 
 class FormController extends AbstractController
 {
@@ -105,36 +106,45 @@ class FormController extends AbstractController
         $account = $entityManager->getRepository(Users::class)->findOneBy(['Hcode' => $req->get('search')]);
         if($account)
         {
-            $completed1 = $this->setFriendArray($account, $this->user);
-            $completed2  = $this->setFriendArray($this->user, $account);
+            $newChat = new Chats();
+            $entityManager->persist($newChat);
+            $entityManager->flush();
+            $chatId = $newChat->getId();
+            $completed1 = $this->setFriendArray($account, $this->user,$chatId);
+            $completed2  = $this->setFriendArray($this->user, $account,$chatId);
             return ($completed1 && $completed2);
         }else{
             return false;
         }
     }
 
-    private function setFriendArray($person1, $person2)
+    private function setFriendArray($person1, $person2, $chatId)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $Hcode = $person1->getHcode();
         $Hcode2 = $person2->getHcode();
         $friendArray = unserialize($person2->getFriends());
+        $chatsArray = unserialize($person2->getChats());
         if(empty($friendArray)){
             if($Hcode2 != $Hcode)//so you cant add your self
             {
                 $friendArray = [$Hcode];
+                $chatsArray = [$chatId];
             }else{
                 return false;  
             }
         }else{
             if(!in_array($Hcode,$friendArray) && $Hcode2 != $Hcode){//so you cant add people twice and add your self 
                 array_push($friendArray,$Hcode);
+                array_push($chatsArray,$chatId);
             }else{
                 return false;
             }
         }
-        $serializedArray = serialize($friendArray);
-        $person2->setFriends($serializedArray);
+        $serializedFriends = serialize($friendArray);
+        $serializedChats = serialize($chatsArray);
+        $person2->setFriends($serializedFriends);
+        $person2->setChats($serializedChats);
         $entityManager->flush();
         return true;
     }
@@ -241,6 +251,41 @@ class FormController extends AbstractController
     {
         $this->session->clear();  
         return $this->redirect("/login", 301);
+    }
+
+    
+     /**
+     * @Route("/message/Send", name="sendMessage")
+    */
+    public function sendMessage(Request $req)
+    {
+        $completed = $this->authCheck();
+        if($completed)//check auth
+        {
+            if(!empty($req))
+            {
+                $entityManager = $this->getDoctrine()->getManager();
+                $id = $req->get('chatId');
+                $current = $req->get('Current');
+                $text = $req->get('message');
+                $chatArray = unserialize($this->user->getChats());
+
+                if(in_array($id,$chatArray))
+                {
+                    $newMessage = new Message();
+                    $newMessage->setChatId($id);
+                    $newMessage->setContent($text);
+                    $newMessage->setUserOne($this->user->getHcode());
+                    $newMessage->setSend(new \DateTime(date('H:i:s')));
+                    $entityManager->persist($newMessage);
+                    $entityManager->flush();
+                }
+            }
+            $this->session->set('current',$current);
+            return $this->redirect("/main", 301);
+        }else{
+            return $this->redirect("/login", 301); 
+        } 
     }
 
     /**
@@ -465,30 +510,51 @@ class FormController extends AbstractController
     public function deleteAccount()
     {
         //kwam er later achter dat ik CASCADE manier kon gebruiken als ik een extra frienden table had
-
         $completed = $this->authCheck();
         if($completed)//check auth
         {
-            $myArray = $this->user->getFriends();
+            $myArray = unserialize($this->user->getFriends());
             $entityManager = $this->getDoctrine()->getManager();
             $myHCode = $this->user->getHcode();
             if(!empty($myArray))//checks if the user has friends
             {
-                $myArray = unserialize($myArray);
                 for($i=0; $i<Count($myArray); $i++)
                 {
                     $friend = $entityManager->getRepository(Users::class)->findOneBy(['Hcode' => $myArray[$i]]);
                     if($friend)//double check if friend exist
                     {
                         $friendArray = Unserialize($friend->getFriends());
+                        $ChatArray = Unserialize($friend->getChats());
                         $key = array_search($myHCode, $friendArray);
+
+                        $repository = $this->getDoctrine()->getRepository(Message::class);
+                        $messages = $repository->findBy(
+                            ['chatId' => $ChatArray[$key]]
+                        );
+                        
+                        for($b=0; $b<Count($messages); $b++)
+                        {
+                            if($messages[$b])
+                            {
+                                $entityManager->remove($messages[$b]);//deletes message 
+                                $entityManager->flush();
+                            }
+                        }
+                        
+                        $chat = $entityManager->getRepository(Chats::class)->findOneBy(['id' => $ChatArray[$key]]);
+                        $entityManager->remove($chat);//deletes chat 
+                        $entityManager->flush();
+
                         unset($friendArray[$key]);
-                        $serializedfriendArray = serialize($friendArray);
-                        $friend->setFriends($serializedfriendArray);
+                        unset($ChatArray[$key]);
+                        $friend->setFriends(serialize($friendArray));
+                        $friend->setChats(serialize($ChatArray));
                         $entityManager->flush();//the user is removed from the friend friendslist 
+
                     }
                 }
             }
+            
             $entityManager->remove($this->user);//deletes user 
             $entityManager->flush();
             $this->session->clear(); 

@@ -13,7 +13,9 @@ class Contacts extends React.Component
         this.state = {
             typePage: this.props[0].contactPage,
             friendsarray: this.props[0].friendsarray,
-            friendSelected: 0,
+            messages: this.props[0].messages,
+            friendSelected: this.props[0].current,
+            me: [this.props[0].username,this.props[0].profile,this.props[0].Hcode],
         }
     }   
 
@@ -108,7 +110,7 @@ class Contacts extends React.Component
                         {/* bind(this) is belangrijkk*/}
                     </div>
                 </div>
-                <RightSide typePage={this.state.typePage} friendsarray={this.state.friendsarray} friend={this.state.friendSelected}></RightSide>
+                <RightSide typePage={this.state.typePage} friendsarray={this.state.friendsarray} friend={this.state.friendSelected} messages={this.state.messages} me={this.state.me}></RightSide>
             </div>
         );
     }

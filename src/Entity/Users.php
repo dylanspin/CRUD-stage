@@ -72,6 +72,11 @@ class Users
      */
     private $birthDate;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $Chats;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -210,6 +215,18 @@ class Users
     public function setBirthDate(\DateTimeInterface $birthDate): self
     {
         $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    public function getChats(): ?string
+    {
+        return $this->Chats;
+    }
+
+    public function setChats(?string $Chats): self
+    {
+        $this->Chats = $Chats;
 
         return $this;
     }
